@@ -3,18 +3,15 @@
 
 function ToyReactBuilder() {
     this.createElement = function (tagName, attributes, ...children) {
-        function createElementChildren(childrenTagNames) {
+        function createElementChildren() {
             const fragments = document.createDocumentFragment();
-            for (var childrenTagName of childrenTagNames) {
-                let children_elem;
-                if (typeof childrenTagName === 'string') {
-                    children_elem = document.createTextNode(childrenTagName);
+            for (let child of children) {
+                if (typeof child === 'string') {
+                    let childElem = document.createTextNode(child);
+                    fragments.appendChild(childElem);
                 } else {
-                    children_elem = document.createElement(childrenTagName);
+                    fragments.appendChild(child);
                 }
-
-
-                fragments.appendChild(children_elem);
             }
             return fragments;
         }
@@ -24,7 +21,7 @@ function ToyReactBuilder() {
         for (let attr in attributes) {
             rootElem.setAttribute(attr, attributes[attr]);
         }
-        rootElem.appendChild(createElementChildren(children));
+        rootElem.appendChild(createElementChildren());
         return rootElem;
     }
 }
